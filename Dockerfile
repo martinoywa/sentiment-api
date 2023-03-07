@@ -1,16 +1,10 @@
 FROM python:3.9
 
-ARG VERSION
-
-LABEL io.martinoywa.version=$VERSION
-
-COPY Makefile /app/Makefile
-
 WORKDIR /app
 
 COPY ./* /app
 
-RUN make all
+RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python"]
 

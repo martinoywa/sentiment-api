@@ -4,6 +4,9 @@ from transformers import pipeline
 
 app = Flask(__name__)
 
+# load the pipeline
+pipe = pipeline(model="cardiffnlp/twitter-roberta-base-sentiment")
+
 LABELS = {
     "LABEL_0": "Negative",
     "LABEL_1": "Neutral",
@@ -25,11 +28,11 @@ def home():
     return "Welcome to the sentiment API."
 
 
-@app.route("/api/v1/sentiment")
+@app.route("/api/v1/sentiment", methods=["POST"])
 def predict_sentiment():
-    pipe = pipeline(model="cardiffnlp/twitter-roberta-base-sentiment")
-    text = request.args.get("input")
-    pred = pipe(text)
+    # perform inference
+    text = request.get_json()
+    pred = pipe(text.get("input"))
 
     return jsonify({"prediction": output_formatter(pred)})
 

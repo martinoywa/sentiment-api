@@ -97,7 +97,10 @@ curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20have%20no%20opini
 ```
 
 
-# How to run on cloud. (**_AWS_**) [WIP]
+# How to run on cloud. (**_AWS_**)
+
+1. Code available in branches `deploy` for `AWS Lightsail` and `ebs` for `AWS Elasticbeanstalk`.
+2. Documentations are available via this [link](https://bit.ly/3Z00RlR), Pages `8` & `9`.
 
 
 ###

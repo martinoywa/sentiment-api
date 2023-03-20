@@ -7,6 +7,9 @@ from transformers import AutoTokenizer
 
 application = Flask(__name__)
 
+# load the models
+model = AutoModelForSequenceClassification.from_pretrained("models/", local_files_only=True)
+tokenizer = AutoTokenizer.from_pretrained("models/")
 
 def output_formatter(confidence_scores):
     labels = ['Negative', 'Neutral', 'Positive']
@@ -29,14 +32,11 @@ def home():
     return "Welcome to the sentiment API."
 
 
-@application.route("/api/v1/sentiment")
+@application.route("/api/v1/sentiment", methods=["POST"])
 def predict_sentiment():
-    text = request.args.get("input")
-    # load the models
-    model = AutoModelForSequenceClassification.from_pretrained("models/", local_files_only=True)
-    tokenizer = AutoTokenizer.from_pretrained("models/")
-    # encode the input
-    encoded_input = tokenizer(text, return_tensors='pt')
+    text = request.get_json()
+    # encode
+    encoded_input = tokenizer(text.get("input"), return_tensors='pt')
     output = model(**encoded_input)
     # get scores
     softmax = nn.Softmax(dim=1)

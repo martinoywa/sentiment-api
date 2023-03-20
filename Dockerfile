@@ -1,5 +1,7 @@
 FROM python:3.9
 
+# TODO: Use the alpine image for smaller images.
+
 ARG VERSION
 
 LABEL io.martinoywa.version=$VERSION

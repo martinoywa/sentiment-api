@@ -1,6 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from transformers import pipeline
 
+from typing import Dict, List
+
+ModelPrediction = List[Dict[str, str | float]]
 
 app = Flask(__name__)
 
@@ -14,9 +17,9 @@ LABELS = {
 }
 
 
-def output_formatter(pred):
-    label = LABELS[pred[0]["label"]]
-    confidence = pred[0]["score"]
+def output_formatter(pred: list[ModelPrediction]) -> ModelPrediction:
+    label: str = LABELS[pred[0]["label"]]
+    confidence: float = pred[0]["score"]
     return {
         "label": label,
         "confidence": confidence
@@ -24,14 +27,15 @@ def output_formatter(pred):
 
 
 @app.route("/api/v1")
-def home():
+def home() -> Response:
     return jsonify({"message": "Welcome to the sentiment API."})
 
 
 @app.route("/api/v1/sentiment", methods=["POST"])
-def predict_sentiment():
-    data = request.get_json()
-    pred = pipe(data.get("input"))
+def predict_sentiment() -> Response:
+    data: dict = request.get_json()
+    text: str = data.get("input")
+    pred: list[ModelPrediction] = pipe(text)
     return jsonify({"prediction": output_formatter(pred)})
 
 

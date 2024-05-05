@@ -25,15 +25,13 @@ def output_formatter(pred):
 
 @app.route("/api/v1")
 def home():
-    return "Welcome to the sentiment API."
+    return jsonify({"message": "Welcome to the sentiment API."})
 
 
 @app.route("/api/v1/sentiment", methods=["POST"])
 def predict_sentiment():
-    # perform inference
-    text = request.get_json()
-    pred = pipe(text.get("input"))
-
+    data = request.get_json()
+    pred = pipe(data.get("input"))
     return jsonify({"prediction": output_formatter(pred)})
 
 

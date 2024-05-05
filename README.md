@@ -1,4 +1,4 @@
-# Seniment Analysis API
+# Sentiment Analysis API
 
 Flask API exposing an endpoint for determining the
 sentiment of text.
@@ -6,34 +6,38 @@ sentiment of text.
 # How to run locally. (**_Terminal_**)
 
 1. Create a virtual environment.
-```jupyter
+```bash
 python3 -m venv env
 ```
 
 
 2. Activate the virtual environment.
-```jupyter
+```bash
 . ./env/bin/activate
 ```
 
 
-3. Install dependecies. (Using the Makefile)
-```jupyter
+3. Install dependencies. (Using the Makefile)
+```bash
 make install
 ```
 
 
 4. Run the application.
-```jupyter
+```bash
 python app.py
 ```
 
 
 5. Query the api.
 
-Example: I don't like this game.
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20don't%20like%20this%20game"
+Query: `I don't like this game`
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I don't like this game"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
 
 Output:
@@ -52,13 +56,13 @@ Output:
 
 
 2. Build the docker image. This uses the Docker file in the repository's root.
-```jupyter
+```bash
 docker build --build-arg VERSION=SENTIMENT-v1 -t sentiment-api .
 ```
 
 
 3. Run a container using the image as its base.
-```jupyter
+```bash
 docker run -p 10010:10010 --name sentiment-api --rm sentiment-api
 ```
 
@@ -68,11 +72,16 @@ docker run -p 10010:10010 --name sentiment-api --rm sentiment-api
 
 5. More Examples:
 
-Query: I like this game 
+Query: `I like this game` 
 
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20like%20this%20game"
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I like this game"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
+
 ```json
 {
   "prediction": {
@@ -82,15 +91,19 @@ curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20like%20this%20gam
 }
 ```
 
-Query: I have no opninion.
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20have%20no%20opinion"
+Query: `I have no opinion`
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I have no opinion"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
 
 ```json
 {
   "prediction": {
-    "confidence": 0.4917212426662445,
+    "confidence": 0.49172118306159973,
     "label": "Neutral"
   }
 }

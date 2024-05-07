@@ -1,4 +1,4 @@
-FROM python:3.12.3-alpine3.19
+FROM python:3.12.3-slim-bullseye
 
 ARG VERSION
 LABEL io.martinoywa.version=$VERSION
@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 COPY . ./
 
-RUN make all
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 10010
 ENTRYPOINT ["python3"]

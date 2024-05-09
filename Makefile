@@ -1,5 +1,5 @@
 install:
-	pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+	pip install --upgrade pip && pip install -Ur requirements.in
 lint:
 	pylint --disable=R,C app.py
 #format-checks:

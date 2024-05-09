@@ -24,6 +24,12 @@ python3 -m venv .venv
 make install
 ```
 
+> ⚠ The above make `target` will install the latest, unpinned requirements from the file: `requirements.in`. If encounter any dependency-related issue during installation or runtime, fall back to use tested, pinned, and stable requirements defined in the file: `requirements.txt` 
+
+- [Optional] Fall back to stable requirements.
+```bash
+pip install -r requirements.txt
+```
 
 4. Run the application.
 ```bash

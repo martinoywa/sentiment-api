@@ -1,0 +1,8 @@
+flask
+transformers
+pytest
+pytest-cov
+pylint
+autopep8
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch

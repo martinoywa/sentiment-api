@@ -4,18 +4,20 @@ Flask API exposing an endpoint for determining the
 sentiment of text.
 
 # How to run locally. (**_Terminal_**)
+> The following commands require execution in the project root.
 
 1. Create a virtual environment.
 ```bash
-python3 -m venv env
+python3 -m venv .venv
 ```
 
 
 2. Activate the virtual environment.
 ```bash
-. ./env/bin/activate
+. .venv/bin/activate
 ```
 
+> The following commands assume you have an active virtual environment.
 
 3. Install dependencies. (Using the Makefile)
 ```bash
@@ -57,13 +59,13 @@ Output:
 
 2. Build the docker image. This uses the Docker file in the repository's root.
 ```bash
-docker build --build-arg VERSION=SENTIMENT-v1 -t sentiment-api .
+docker build --build-arg VERSION=SENTIMENT-v1 -t sentiment-api:dev .
 ```
 
 
 3. Run a container using the image as its base.
 ```bash
-docker run -p 10010:10010 --name sentiment-api --rm sentiment-api
+docker run --rm -p 10010:10010 --name sentiment-api sentiment-api:dev
 ```
 
 

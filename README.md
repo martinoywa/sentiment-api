@@ -1,39 +1,51 @@
-# Seniment Analysis API
+# Sentiment Analysis API
 
 Flask API exposing an endpoint for determining the
 sentiment of text.
 
 # How to run locally. (**_Terminal_**)
+> The following commands require execution in the project root.
 
 1. Create a virtual environment.
-```jupyter
-python3 -m venv env
+```bash
+python3 -m venv .venv
 ```
 
 
 2. Activate the virtual environment.
-```jupyter
-. ./env/bin/activate
+```bash
+. .venv/bin/activate
 ```
 
+> The following commands assume you have an active virtual environment.
 
-3. Install dependecies. (Using the Makefile)
-```jupyter
+3. Install dependencies. (Using the Makefile)
+```bash
 make install
 ```
 
+> ⚠ The above make `target` will install the latest, unpinned requirements from the file: `requirements.in`. If encounter any dependency-related issue during installation or runtime, fall back to use tested, pinned, and stable requirements defined in the file: `requirements.txt` 
+
+- [Optional] Fall back to stable requirements.
+```bash
+pip install -r requirements.txt
+```
 
 4. Run the application.
-```jupyter
+```bash
 python app.py
 ```
 
 
 5. Query the api.
 
-Example: I don't like this game.
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20don't%20like%20this%20game"
+Query: `I don't like this game`
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I don't like this game"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
 
 Output:
@@ -52,14 +64,14 @@ Output:
 
 
 2. Build the docker image. This uses the Docker file in the repository's root.
-```jupyter
-docker build --build-arg VERSION=SENTIMENT-v1 -t sentiment-api .
+```bash
+docker build --build-arg VERSION=SENTIMENT-v1 -t sentiment-api:dev .
 ```
 
 
 3. Run a container using the image as its base.
-```jupyter
-docker run -p 10010:10010 --name sentiment-api --rm sentiment-api
+```bash
+docker run --rm -p 10010:10010 --name sentiment-api sentiment-api:dev
 ```
 
 
@@ -68,11 +80,16 @@ docker run -p 10010:10010 --name sentiment-api --rm sentiment-api
 
 5. More Examples:
 
-Query: I like this game 
+Query: `I like this game` 
 
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20like%20this%20game"
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I like this game"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
+
 ```json
 {
   "prediction": {
@@ -82,15 +99,19 @@ curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20like%20this%20gam
 }
 ```
 
-Query: I have no opninion.
-```jupyter
-curl -X GET "http://127.0.0.1:10010/api/v1/sentiment?input=I%20have%20no%20opinion"
+Query: `I have no opinion`
+```bash
+curl \
+-X POST \
+-H "Content-Type: application/json" \
+-d '{"input": "I have no opinion"}' \
+"http://127.0.0.1:10010/api/v1/sentiment"
 ```
 
 ```json
 {
   "prediction": {
-    "confidence": 0.4917212426662445,
+    "confidence": 0.49172118306159973,
     "label": "Neutral"
   }
 }
